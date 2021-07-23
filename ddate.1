@@ -1,117 +1,110 @@
-.\" All Rites Reversed.  This file is in the PUBLIC DOMAIN.
+.\" Todos os Direitos Reservados. Este documento está em DOMINIO PÚBLICO.
 .\" Kallisti.
-.TH DDATE 1 "Bureaucracy 3161" "ddate" "Emperor Norton User Command"
+.TH DDATE 1 "Burocracia 3161" "ddate" "Emperor Norton User Command"
 .SH NAME
-ddate \- convert Gregorian dates to Discordian dates
-.SH SYNOPSIS
+ddate \- Converte datas Gregorianas para as datas Discordianas
+.SH SINOPSE
 .B ddate
-.RI [ \fB+\fPformat]
-.RI [ date ]
-.SH DESCRIPTION
+.RI [ \fB+\fPformato]
+.RI [ data ]
+.SH DESCRIÇÃO
 .B ddate
-prints the date in Discordian date format.
+mostra a data no formato Discordiano.
 .PP
-If called with no arguments,
+Se chamado sem nenhum argumento,
 .B ddate
-will get the current system date, convert this to the Discordian
-date format and print this on the standard output. Alternatively, a
-Gregorian date may be specified on the command line, in the form of a numerical
-day, month and year.
+vai mostrar a data atual do sistema convertido para a data Discordiana e mostra-lá no modo padrão. De outro modo, uma data Gregoriana pode ser especificada na linha de comando no formato numérico de dia, mês e ano (ex. 25 12 2021). 
 .PP
-If a format string is specified, the Discordian date will be printed in
-a format specified by the string. This mechanism works similarly to the
-format string mechanism of
-.B date(1),
-only almost completely differently. The fields are:
+Para converter datas AC, colocar o ano como negativo (ex. 25 12 -100)
+.PP
+Se o formato de string for especificado, a data Discordiana irá ser mostrada no formato específico da string. Os campos são que podem ser utilizados são:
 .IP %A
-Full name of the day of the week (i.e., Sweetmorn)
+Nome inteiro do dia da semana (i.e., Docemanhã)
 .IP %a
-Abbreviated name of the day of the week (i.e., SM)
+Nome abreviado do dia da semana (i.e., DM)
 .IP %B
-Full name of the season (i.e., Chaos)
+Nome da estações (i.e., Burocracia)
 .IP %b
-Abbreviated name of the season (i.e., Chs)
+Nome abreviado da estação (i.e., Brc)
 .IP %d
-Cardinal number of day in season (i.e., 23)
+Número cardinal do dia da estação (i.e., 23)
 .IP %e
-Ordinal number of day in season (i.e., 23rd)
+Número ordinário do dia da estação (i.e., 23º)
 .IP %H
-Name of current Holyday, if any
+Nome do feriado atual, se ouver algum
 .IP %N
-Magic code to prevent rest of format from being printed unless today is
-a Holyday.
+Código mágico para previnir que o resto do formato impresso a menos que hoje seja feriado
 .IP %n
-Newline
+Nova Linha
 .IP %t
 Tab
 .IP %X
-Number of days remaining until X-Day. (Not valid if the SubGenius options
-are not compiled in.)
+Número de dias restantes até o dia X. (Não é valido se a opção do SubGenius não está compilada.)
 .IP %Y
-The year of our Lady Discord (i.e., 3182)
+O ano da Nossa Senhora Da Discórdia (i.e., 3182)
 .IP %{
 .IP %}
-Used to enclose the part of the string which is to be replaced with the
-words "St. Tib's Day" if the current day is St. Tib's Day.
+Usado para encapsular parte de uma string que será substituida pelas palavras "Dia do Sto. Tiby" se for o dia do Sto. Tiby.
 .IP %\.
-Try it and see.
+Tente a sorte.
 .bp
-.SH EXAMPLES
+.SH EXEMPLOS
 .nf
 % ddate
 .br
-Sweetmorn, Bureaucracy 42, 3161 YOLD
+Docemanhã, 42 de Burocracia, 3161 YOLD
 .PP
-% ddate +'Today is %{%A, the %e of %B%}, %Y. %N%nCelebrate %H'
+% ddate +'Hoje é %{%A, %e de %B%}, %Y. %N%nCelebramos %H'
 .br
-Today is Sweetmorn, the 42nd of Bureaucracy, 3161.
+Hoje é  Docemanhã, 42º de Burocracia, 3161.
 .PP
-% ddate +"It's %{%A, the %e of %B%}, %Y. %N%nCelebrate %H" 26 9 1995
+% ddate +"É  %{%A, %e de %B%}, %Y. %N%nCelebramos %H" 26 9 1995
 .br
-It's Prickle-Prickle, the 50th of Bureaucracy, 3161.
+É Espinho-Espinho, 50º de Burocracia, 3161.
 .br
-Celebrate Bureflux
+Celebramos Bureflux
 .PP
-% ddate +"Today's %{%A, the %e of %B%}, %Y. %N%nCelebrate %H" 29 2 1996
+% ddate +"Hoje é  %{%A, %e de %B%}, %Y. %N%nCelebramos %H" 29 2 1996
 .br
-Today's St. Tib's Day, 3162.
+Hoje é dia do Sto. Tiby, 3162
 .br
 
 .SH BUGS
 
 .B ddate(1)
-will produce undefined behavior if asked to produce the date for St. Tib's
-day and its format string does not contain the St. Tib's Day delimiters
-%{ and %}.
+Vai produzir um comportamento indefinido se for pedido para mostrar a data do Sto. Tiby se o formato da string não contiver os limitadores do Sto. Tiby %{ e %}.
 
-.SH NOTE
+.SH NOTA
 
-After `X-Day' passed without incident, the Church of the SubGenius
-declared that it had got the year upside down - X-Day is actually in 8661 AD
-rather than 1998 AD.  Thus, the True X-Day is Cfn 40, 9827.
+Depois que o 'Dia-X' passou nem nenhum incidente, a Igreja do Subgênio declarou que tinha virado o ano de cabeça para baixo - então do Dia-X será em 8661 D.C. ao invés de 1998 A.C. Assim, o verdadeiro Dia-X será em 40 de Cfs, 9827.
 
-.SH AUTHOR
+.SH AUTOR
 .nh
-Original program by Druel the Chaotic aka Jeremy Johnson (mpython@gnu.ai.mit.edu)
+Programado originalmente por Druel, o Caotico, vulgo Jeremy Johnson (mpython@gnu.ai.mit.edu)
 .br
-Major rewrite by Lee H:. O:. Smith, KYTP, aka Andrew Bulhak (acb@dev.null.org)
+Principal reescritor Lee H:. O:. Smith, KYTP, vulgo Andrew Bulhak (acb@dev.null.org)
 .br
-Gregorian B.C.E. dates fixed by Chaplain Nyan the Wiser, aka Dan Dart (ntw@dandart.co.uk)
+A.E.C (Antes da Era Comum), consertado pelo Chaplain Nyan, o Mais Sábio, vulgo Dan Dart (ntw@dandart.co.uk)
 .br
-Five tons of flax.
+Traduzido por Anderson Silvestre, vulgo Andy.
+.br
+Cinco toneladas de Linho.
 
-.SH DISTRIBUTION POLICY
+.SH POLITICA DE DISTRIBUIÇÃO
 
-Public domain. All rites reversed.
+Dominio Público. Todos os direitos reservados.
 
-.SH SEE ALSO
+.SH VEJA TAMBÉM
 
 date(1),
 .br
 http://www.subgenius.com/
 .br
-Malaclypse the Younger,
-.I "Principia Discordia, Or How I Found Goddess And What I Did To Her When I Found Her"
+Malaclypse, O Mais Jovem ,
+.I "Principia Discordia, Ou Como Eu Encontrei A Deusa E O Que Eu Fiz Com Ela Quando Eu A Encontrei"
 
-.SH AVAILABILITY
-The ddate command is available from https://github.com/bo0ts/ddate.
+.SH DISPONIBILIDADE
+O ddate traduzido está disponível em https://github.com/bo0ts/ddate.
+
+.SH DISPONIBILIDADE PROGRAMA ORIGINAL 
+O comando ddate está disponível em https://github.com/bo0ts/ddate.

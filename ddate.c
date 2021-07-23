@@ -1,72 +1,84 @@
-/* $ DVCS ID: $jer|,523/lhos,KYTP!41023161\b"?" <<= DO NOT DELETE! */
+/* $ DVCS ID: $jer|,523/lhos,KYTP!41023161\b"?" <<= NÃO DELETE! */
 
-/* ddate.c .. converts boring normal dates to fun Discordian Date -><-
-   written  the 65th day of The Aftermath in the Year of Our Lady of 
-   Discord 3157 by Druel the Chaotic aka Jeremy Johnson aka
-   mpython@gnu.ai.mit.edu  
-      28 Sever St Apt #3
-      Worcester MA 01609
+/*  ddate.c .. converte o calendário chato e padrão pelo maravilhoso 
+    calendário Discordiano ><
+    Escrito 65º dia de Consequências por Druel, o Cáotico, 
+    vulgo Jeremy Johson mpython@gnu.ai.mit.edu
+        28 Sever St Apt #3
+        Worcester MA 01609
+    
+    Eu não sou responsável por esse programa zoar nada (exceto sua mente
+    Eu sou responsável por isso)
 
-   and I'm not responsible if this program messes anything up (except your 
-   mind, I'm responsible for that)
+    (k) YOLD 3161 e todo tempo antes e depois.
+    Reutilize, recicle como quiser.
+    Esse programa está em dominio público. Distribua gratuitamente.
+    Ou não.
 
-   (k) YOLD 3161 and all time before and after.
-   Reprint, reuse, and recycle what you wish.
-   This program is in the public domain.  Distribute freely.  Or not.
+    Majorietariamente hackeado, extendido e bugotificado/desbugado em
+    Docemanhã, 42 de Burocracia, 3161 YOLD, por LeeH:. O:. Smith, KYTP,
+    vulgo Andrew Bulhakm, acb@dev.null.org
+    
+    Um pouco hackeado e craqueado por um amável fogazinho a lenha em
+    HoradoBum, 53º dia da Burocracia em 3179 YOLD, por Chaplain Nyan,
+    O Mais Sábio, vulgo Dan Dart, ntw@dandanrt.com.uk
 
-   Majorly hacked, extended and bogotified/debogotified on 
-   Sweetmorn, Bureaucracy 42, 3161 YOLD, by Lee H:. O:. Smith, KYTP, 
-   aka Andrew Bulhak, aka acb@dev.null.org
+    Histórico:
+    Bureflux 3161:  Primeiro lançamento da melhora do ddate com o formato de strings
+    59 Brc, 3161:   Divisão das opções PRAISE_BOB e KILL_BOB, outras mudanças.
+    53 Brc, 3179:   Consertado a conversão das datas gregorianas antes de 1167 YOLD.
 
-   Slightly hackled and crackled by a sweet firey stove on
-   Boomtime, the 53rd day of Bureaucracy in the YOLD 3179,
-   by Chaplain Nyan the Wiser, aka Dan Dart, aka ntw@dandart.co.uk
+    22-02-1999 Arkadiusz Miskiewicz <misiek@pld.ORG.PL>
+    - Adicionou Suporte de linguagem nativo
 
-   and I'm not responsible if this program messes anything up (except your 
-   mind, I'm responsible for that) (and that goes for me as well --lhos)
+    17-03-2000 Burt Golzman <misiek@pld.ORG.PL>
+    - Adicionou verificação de intervalo por datas.
 
-   Version history:
-   Bureflux 3161:      First release of enhanced ddate with format strings
-   59 Bcy, 3161:       PRAISE_BOB and KILL_BOB options split, other minor
-                       changes.
-   53 Bcy, 3179:       Fixed gregorian date conversions less than YOLD 1167
+    07-06-2014 William Woodruff <william@tuffbizz.com>
+    - Removeu a dependencia local do gettext
 
-   1999-02-22 Arkadiusz Miskiewicz <misiek@pld.ORG.PL>
-   - added Native Language Support
+    15º de Confusão, 3180:
+    - Chamou os adoradores da Fruta errada.
 
-   2000-03-17 Burt Holzman <holzman+ddate@gmail.com>
-   - added range checks for dates
+    57º de Confusão, 3187.
+    - Tradução Português BR
+    
 
-   2014-06-07 William Woodruff <william@tuffbizz.com>
-   - removed gettext dependent locale code
+    Traduzi pois não achei nenhum conversor de datas para shell
+    em PT-BR e como esse funciona muito bem resolvi traduzi-lo.
+    Peço desculpas (ou não) caso tenha algum erro na tradução e
+    cabe a você decidir se ela está certa ou não.
+    Pois como se Diz no PENTARROTO, você está proibido de acreditar nisso que está lendo.
+    Não traduzi o cód pois é de conveção da raça dos programadores 
+    que o programa deve ser em inglês.
+    
 
-   15th of Confusion, 3180:
-   - call out adherents of the wrong fruit
 
-   FIVE TONS OF FLAX
+    CINCO TONELADAS DE LINHO
 */
 
-/* configuration options  VVVVV   READ THIS!!! */
+/* Opções de configuração  VVVVV   LEIA ISSO!!! */
 
-/* If you wish ddate(1) to print the date in the same format as Druel's 
- * original ddate when called in immediate mode, define OLD_IMMEDIATE_FMT 
+/*Se você quer que o ddate(1) mostre a data no mesmo formato que o ddate original
+ * do Druel no modo imediato, defina OLD_IMMEIATE_FMT
  */
 
 #define OLD_IMMEDIATE_FMT
 
-/* If you wish to use the US format for aneristic dates (m-d-y), as opposed to
- * the Commonwealth format, define US_FORMAT.
+/* Se você quer usar o formato aneristico de datas dos USA (m-d-a) 
+ * defina US_FORMAT
  */
 
-/* #define US_FORMAT */
+/*#define US_FORMAT*/
 
-/* If you are ideologically, theologically or otherwise opposed to the 
- * Church of the SubGenius and do not wish your copy of ddate(1) to contain
- * code for counting down to X-Day, undefine KILL_BOB */
+/* Se você é ideologicamente, teologicamente ou contrário de qualquer modo
+ * a Igreja do SubGênio e não quer que a sua cópia do ddate(1) tenha o
+ * código de contagem para o Dia-X, comente o KILL_BOB 
+ */
 
 #define KILL_BOB 13013
 
-/* If you wish ddate(1) to contain SubGenius slogans, define PRAISE_BOB */
+/* Se você quer que o ddate contenha os slogans do SubGênio, defina PRAISE_BOB */
 
 /*#define PRAISE_BOB 13013*/
 
@@ -75,13 +87,12 @@
 #include <time.h>
 #include <stdio.h>
 
-
-// work around includes and defines from formerly c.h
+// Um jeitinho de incluir e definir o c.h como antigamente
 #ifndef ARRAY_SIZE
 # define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
 #endif
 
-/* &a[0] degrades to a pointer: a different type from an array */
+/* &a[0] degrades to a pointer: um tipo diferente de array para array */
 # define __must_be_array(a) \
 	BUILD_BUG_ON_ZERO(__builtin_types_compatible_p(__typeof__(a), __typeof__(&a[0])))
 
@@ -100,26 +111,26 @@ int xday_countdown(int yday, int year);
 #endif
 
 
-/* string constants */
+/* Strings constantes */
 
 char *day_long[5] = { 
-    "Sweetmorn", "Boomtime", "Pungenday", "Prickle-Prickle", "Setting Orange"
+    "Docemanhã", "HoradoBum", "DiaPicante", "Espinho-Espinho", "Laranja Poente"
 };
 
-char *day_short[5] = {"SM","BT","PD","PP","SO"};
+char *day_short[5] = {"DM","HdB","DP","EE","LP"};
 
 char *season_long[5] = { 
-    "Chaos", "Discord", "Confusion", "Bureaucracy", "The Aftermath"
+    "Caos", "Discórdia", "Confusão", "Burocracia", "Consequências"
 };
 
-char *season_short[5] = {"Chs", "Dsc", "Cfn", "Bcy", "Afm"};
+char *season_short[5] = {"Caos", "Dsc", "Cfs", "Brc", "Csq"};
 
 char *holyday[5][2] = { 
-    { "Mungday", "Chaoflux" },
-    { "Mojoday", "Discoflux" },
-    { "Syaday",  "Confuflux" },
+    { "Mungday", "Caosflux" },
+    { "Mojoday", "Discflux" },
+    { "Syaday",  "Conflux" },
     { "Zaraday", "Bureflux" },
-    { "Maladay", "Afflux" }
+    { "Maladay", "Conslux" }
 };
 
 struct disc_time {
@@ -130,29 +141,30 @@ struct disc_time {
 };
 
 char *excl[] = {
-    "Hail Eris!", "All Hail Discordia!", "Kallisti!", "Fnord.", "Or not.",
+    "Hail Eris!", "Todos Saudem a Discórdia!", "Kallisti!", "Fnord.", "Ou não.",
     "Wibble.", "Pzat!", "P'tang!", "Frink!",
 #ifdef PRAISE_BOB
-    "Slack!", "Praise \"Bob\"!", "Or kill me.",
+    "Slack!", "Saudem \"Bob\"!", "Ou... me mate.",
 #endif /* PRAISE_BOB */
-    /* randomness, from the Net and other places. Feel free to add (after
-       checking with the relevant authorities, of course). */
-    "Grudnuk demand sustenance!", "Keep the Lasagna flying!",
-    "You are what you see.",
-    "Or is it?", "This statement is false.",
-    "Lies and slander, sire!", "Hee hee hee!",
+    /* Frases aleatórias da internet e outros lugares. Sinta-se a vontade para
+       adicionar novas, excluir as existentes, inventar (depois de consultar
+       as autoridades relevantes e/ou seu Papa pessoal). */
+    "Grudnuk precisa de sustento!", "Mantenha a lasanha voando!!",
+    "Você é o que você vê..","Você está proibido de acreditar no que lê.",
+    "É ou não é?", "Está afirmação é falsa.",
+    "Mentiras e calúnias, meu bom senhor!", "Hee hee hee!",
 #if defined(linux) || defined (__linux__) || defined (__linux)
-    "Hail Eris, Hack Linux!",
+    "Hail Eris, Hackeie o Linux!",
 #elif defined(__APPLE__)
-    "This Fruit is not the True Fruit of Discord.",
+    "Essa não é a verdadeira fruta da Discórdia.",
 #endif
     ""
 };
 
-char default_fmt[] = "%{%A, %B %d%}, %Y YOLD";
+char default_fmt[] = "%{%A, %d de %B, %Y YOLD. %NCelebramos %H%}!!";
 char *default_immediate_fmt=
 #ifdef OLD_IMMEDIATE_FMT
-"Today is %{%A, the %e day of %B%} in the YOLD %Y%N%nCelebrate %H"
+"Hoje é %{%A, %e de %B%} do ano %Y YOLD. %NCelebramos %H!"
 #else
 default_fmt
 #endif
@@ -161,21 +173,23 @@ default_fmt
 #define DY(y) (y+1166)
 
 static inline char *ending(int i) {
-	return i/10==1?"th":(i%10==1?"st":(i%10==2?"nd":(i%10==3?"rd":"th")));
+	return "º";
+    /*return *i/10==1?"th":(i%10==1?"st":(i%10==2?"nd":(i%10==3?"rd":"th")));*/
+    /* Para os números cardinais americanos descomente essa a linha acima e comente a return "º"*/
 }
 
 static inline int leapp(int i) {
 	return (!(DY(i)%4))&&((DY(i)%100)||(!(DY(i)%400)));
 }
 
-/* select a random string */
+/* Seleciona uma String random */
 static inline char *sel(char **strings, int num) {
 	return(strings[random()%num]);
 }
 
 void print(struct disc_time,char **); /* old */
 void format(char *buf, const char* fmt, struct disc_time dt);
-/* read a fortune file */
+/* lê o arquivo da fortuna */
 int load_fortunes(char *fn, char *delim, char** result);
 
 struct disc_time convert(int,int);
@@ -196,7 +210,7 @@ main (int argc, char *argv[]) {
 	progname = p+1;
 
     srandom(time(NULL));
-    /* do args here */
+    /* faça os "args" aqui */
     for(pi=1; pi<argc; pi++) {
 	switch(argv[pi][0]) {
 	case '+': fnord=argv[pi]+1; break;
@@ -205,9 +219,9 @@ main (int argc, char *argv[]) {
 	    case 'V':
 		printf(("%s (%s)\n"), progname, PACKAGE_STRING);
 	    default: goto usage;
-	    }
+	       }
 	default: goto thud;
-	}
+	   }
     }
 
   thud:
@@ -215,25 +229,25 @@ main (int argc, char *argv[]) {
 	int moe=atoi(argv[pi]), larry=atoi(argv[pi+1]), curly=atoi(argv[pi+2]);
 	hastur=makeday(
 #ifdef US_FORMAT
-	    moe,larry,
+	    larry,moe,
 #else
 	    larry,moe,
 #endif
 	    curly);
 	if (hastur.season == -1) {
-		printf("Invalid date -- out of range\n");
+		printf("Data Inválida -- ou fora de alcance\n");
 		return -1;
 	}
 	fnord=fnord?fnord:default_fmt;
     } else if (argc!=pi) { 
       usage:
-	fprintf(stderr,("usage: %s [+format] [day month year]\n"), argv[0]);
+	fprintf(stderr,("Use: %s [+formato] [dia mês ano]\n"), argv[0]);
 	exit(1);
     } else {
 	t= time(NULL);
 	eris=localtime(&t);
-	bob=eris->tm_yday; /* days since Jan 1. */
-	raw=eris->tm_year; /* years since 1980 */
+	bob=eris->tm_yday; /* Dias desde Jan 1. */
+	raw=eris->tm_year; /* Anos desde 1980 */
 	hastur=convert(bob,raw);
 	fnord=fnord?fnord:default_immediate_fmt;
     }
@@ -251,7 +265,8 @@ void format(char *buf, const char* fmt, struct disc_time dt)
 
 /*    fprintf(stderr, "format(%p, \"%s\", dt)\n", buf, fmt);*/
 
-    /* first, find extents of St. Tib's Day area, if defined */
+    /* primeiro, encontra a extensão da área do 
+        dia do Sto. Tiby, se definida*/
     for(i=0; i<fmtlen; i++) {
 	if(fmt[i]=='%') {
 	    switch(fmt[i+1]) {
@@ -268,13 +283,13 @@ void format(char *buf, const char* fmt, struct disc_time dt)
 	}
     }
 
-    /* now do the formatting */
+    /* Agora faça a formatação */
     buf[0]=0;
 
     for(i=0; i<fmtlen; i++) {
 	if((i==tib_start) && (dt.day==-1)) {
-	    /* handle St. Tib's Day */
-	    strcpy(bufptr, ("St. Tib's Day"));
+	    /* controlador do Dia do Sto. Tiby*/
+	    strcpy(bufptr, ("Dia do Santo Tiby"));
 	    bufptr += strlen(bufptr);
 	    i=tib_end;
 	} else {
@@ -315,8 +330,8 @@ void format(char *buf, const char* fmt, struct disc_time dt)
   eschaton:
     *(bufptr)=0;
 }
-
-struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
+/* ordem p/ o input de data*/
+struct disc_time makeday(int imonth,int iday,int iyear) 
 { 
     struct disc_time funkychickens;
     
@@ -324,7 +339,7 @@ struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
     int dayspast=0;
 
     memset(&funkychickens,0,sizeof(funkychickens));
-    /* basic range checks */
+    /* checa o range básico */
     if (imonth < 1 || imonth > 12 || iyear == 0) {
 	    funkychickens.season = -1;
 	    return funkychickens;
@@ -338,8 +353,8 @@ struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
     }
     
     imonth--;
-    /*  note: gregorian year 0 doesn't exist so
-     *  add one if user specifies a year less than 0 */
+    /* Nota: No calendário gregoriano não existe o ano 0
+     * então adicione um se você quer espeficicar um ano menor que o 0 */
     funkychickens.year= iyear+1166 + ((0 > iyear)?1:0);
     while(imonth>0) { dayspast+=cal[--imonth]; }
     funkychickens.day=dayspast+iday-1;
@@ -348,7 +363,7 @@ struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
 	if (funkychickens.day==59 && iday==29)  funkychickens.day=-1;
     }
     funkychickens.yday=funkychickens.day;
-/*               note: EQUAL SIGN...hopefully that fixes it */
+/*      nota: Sinal de igual... espero que isso resolva */
     while(funkychickens.day>=73) {
 	funkychickens.season++;
 	funkychickens.day-=73;
@@ -379,15 +394,14 @@ struct disc_time convert(int nday, int nyear)
 
 #ifdef KILL_BOB
 
-/* Code for counting down to X-Day, X-Day being Cfn 40, 3164 
- *
- * After `X-Day' passed without incident, the CoSG declared that it had 
- * got the year upside down --- X-Day is actually in 8661 AD rather than 
- * 1998 AD.
- *
- * Thus, the True X-Day is Cfn 40, 9827.
- *
- */
+ /* Código para a contagem regressiva para o Dia-X, o Dia-X sendo 40 de Cfn, 3164
+  * 
+  * Depois que o Dia-X passou sem nenhum incidente, a IdSG declarou que o ano
+  * tinha virado de cabeça para baixo, então o Dia-X seria em 8661 ao invés de
+  * 1998.
+  *
+  * Então, o verdadeiro Dia-X é em 40 de Cnf, 9827 YOLD
+  */
 
 int xday_countdown(int yday, int year) {
     int r=(185-yday)+(((yday<59)&&(leapp(year)))?1:0);
