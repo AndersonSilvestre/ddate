@@ -1,8 +1,9 @@
-* PERPETUAL DATE CONVERTER FROM GREGORIAN TO POEE CALENDAR
-  SACRED DOCUMENT OF THE FROGS (old Erisian poem):
-  73 Days hath
+
+* CONVERSOR PERPETUO DE DATAS DO CALENDARIO GREGORIANO PARA O CALENDARIO POEE
+  O SAGRADO DOCUMENTO DOS SAPOS (velho poema Erisiano):
+  As estações tem 73 dias. Elas são: 
   Caos, Discórdia, Confusão, Burocracia e por fim Consequências.
-** THIS THING
+** ISSO AQUI
    Este é exatamente a mesma versão do ddate que pode ser encontrada
    até o util-linux 2.20. E está aqui porque o util-linux não pode mais
    buildar o ddate por default e parece que o mantedor do ArchLinux está feliz
